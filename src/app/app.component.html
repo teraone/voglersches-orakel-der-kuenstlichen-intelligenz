@@ -1,0 +1,92 @@
+<div class="container">
+  <div class="row z-2 g-0">
+
+    <div class="p-4 light-blurry-box reveal-after-5">
+
+
+      <ng-container *ngIf="!cameraStarting">
+        <h5>Das Vogler'sche Orakel der künstlichen Intelligenz</h5>
+
+        <button class="btn btn-info text-white btn-sm" (click)="startCamera()">Kamera starten</button>
+
+      </ng-container>
+
+      <ng-container *ngIf="cameraStarting && !cameraStarted && !finished">
+        <h5>Wen haben wir denn da?</h5>
+
+      </ng-container>
+
+
+      <ng-container *ngIf="cameraStarted && !imageCaptured && !finished">
+        <h5>Ach wie hübsch! </h5>
+        <button class="btn btn-info text-white btn-sm" (click)="captureImage()">Bild aufnehmen</button>
+      </ng-container>
+
+
+      <ng-container *ngIf="imageCaptured && !requestSent && !finished">
+        <h5>Befrage nun das Vogler'sche Orakel</h5>
+        <button class="btn btn-info btn-sm text-white" (click)="sendImage()" *ngIf="cameraStarted">Bild zum Orakel
+          senden
+        </button>
+
+        <p class="small text-muted">
+          <small>Dein Bild wird von einer KI analysiert aber nicht gespeichert.</small>
+          <br>
+          <button class="btn btn-link text-danger btn-sm" (click)="startCamera()">Neues Bild...</button>
+
+        </p>
+      </ng-container>
+
+
+      <ng-container *ngIf="requestSent">
+        <h5>Das Vogler'sche Orakel der künstlichen Intelligenz denkt....</h5>
+        <h1>🧐</h1>
+
+      </ng-container>
+
+      <ng-container *ngIf="finished">
+        <h5>Das Vogler'sche Orakel der künstlichen Intelligenz sprach:</h5>
+        <p class="fs-7 fst-italic fw-medium">
+          "{{ response }}"
+        </p>
+
+        <p class="small text-muted">
+          <button class="btn btn-info text-white btn-sm" (click)="startCamera()">Nochmal</button>
+
+          <br>
+          <small>Der Text ist KI-generiert.. und wahrscheinlich ziemlich unsinnig :)</small>
+          <br>
+          Umsetzung: <a href="https://teraone.de" target="_blank">teraone.de</a>
+          <br>
+
+
+        </p>
+      </ng-container>
+
+
+      <div *ngIf="hasError" class="alert alert-danger">
+        Leider konnte keine Kamera gefunden werden.
+      </div>
+    </div>
+  </div>
+
+
+</div>
+
+
+<div class="video-wrapper z-0" *ngIf="cameraStarting && !imageCaptured && !finished">
+  <ng-container *ngIf="!hasError">
+
+    <div class="video-container ">
+      <video #webCam autoplay muted playsinline class="video-element"></video>
+
+    </div>
+  </ng-container>
+</div>
+
+
+<div class="video-wrapper z-0" *ngIf="imageCaptured && !requestSent && !finished">
+  <div class="video-container ">
+    <img *ngIf="imageData" [src]="imageData.imageAsDataUrl" class="video-element" alt="Captured Image"/>
+  </div>
+</div>
