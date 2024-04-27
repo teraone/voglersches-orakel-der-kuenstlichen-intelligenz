@@ -9,12 +9,12 @@ body {
   background-repeat: no-repeat;
   background-position: center center;
   background-attachment: fixed;
+  background-color: #000918;
+  background-size: cover;
 }
 
 /* when not body.loading */
 body:not(.loading) {
-
-
   background-image: url('assets/orakel_1.webp');
 }
 body.loading {
@@ -29,7 +29,6 @@ body.loading {
     backdrop-filter: blur(0px);
   }
 }
-
 .reveal-after-5 {
   animation: reveal 5s forwards;
 }
