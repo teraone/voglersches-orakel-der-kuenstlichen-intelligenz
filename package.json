@@ -34,7 +34,7 @@
     "karma-jasmine-html-reporter": "~2.1.0",
     "typescript": "~5.4.2"
   },
-  "packageManager": "yarn",
+  "packageManager": "yarn@1.22.0",
   "engines": {
     "node": "20",
     "yarn": ">=1.22.0"
