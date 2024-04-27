@@ -1,6 +1,5 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, ViewChild} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
-import {FormsModule} from "@angular/forms";
 import {NgIf} from "@angular/common";
 import {HttpClient, HttpClientModule} from "@angular/common/http";
 
@@ -11,7 +10,7 @@ interface CapturedImageData {
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, FormsModule, NgIf, HttpClientModule],
+  imports: [RouterOutlet, NgIf, HttpClientModule],
   changeDetection: ChangeDetectionStrategy.Default,
   templateUrl: './app.component.html',
 })
