@@ -1,6 +1,7 @@
 {
-  "name": "vogler-ai",
-  "version": "0.0.0",
+  "name": "voglersches-orakel-der-kuenstlichen-intelligenz",
+  "version": "1.0.0",
+  "license": "MIT",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",

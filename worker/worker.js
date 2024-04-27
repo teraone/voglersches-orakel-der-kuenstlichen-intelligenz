@@ -2,7 +2,7 @@ import {Ai} from './vendor/@cloudflare/ai.js';
 
 function noPersonDetected(e) {
   let headers = new Headers({
-    'Access-Control-Allow-Origin': "*",
+    'Access-Control-Allow-Origin': 'voglersches-orakel-der-kuenstlichen-intelligenz.pages.dev',
   });
 
   return Response.json({error: "NO_PERSON_DETECTED", e}, {
@@ -34,7 +34,7 @@ function handleCors(request) {
 
   // Create headers to allow CORS requests
   let headers = new Headers({
-    'Access-Control-Allow-Origin': origin,
+    'Access-Control-Allow-Origin': 'voglersches-orakel-der-kuenstlichen-intelligenz.pages.dev',
     'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
     'Access-Control-Allow-Headers': 'Content-Type',
     'Access-Control-Max-Age': '86400', // One day
@@ -104,7 +104,7 @@ Du, "Voglers Orakel der Künstlichen Intelligenz", nennst den Nutzern ihr Alter 
 
 
     let headers = new Headers({
-      'Access-Control-Allow-Origin': request.headers.get('Origin') || '*',
+      'Access-Control-Allow-Origin': 'voglersches-orakel-der-kuenstlichen-intelligenz.pages.dev',
       'Access-Control-Allow-Methods': 'POST',
       'Access-Control-Allow-Headers': 'Content-Type',
       'Access-Control-Max-Age': '86400', // One day

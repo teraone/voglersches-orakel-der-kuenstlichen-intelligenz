@@ -1,27 +1,47 @@
-# VoglerAi
+# Das Vogler'sche Orakel der künstlichen Intelligenz
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.6.
+Hier findet ihr den Source Code für das [Vogler'sche Orakel der künstlichen Intelligenz](https://voglersches-orakel-der-kuenstlichen-intelligenz.pages.dev/).
 
-## Development server
+## Wie funktioniert das?
+1. Der Benutzer aktiviert die Webcam
+2. Der Benutzer macht ein Foto von sich
+3. Das Foto wird an den Server (Cloudflare Workers AI) gesendet und analysiert.
+4. Die Antwort wird zurückgegeben und angezeigt 
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
 
-## Code scaffolding
+## Was macht der Server mit dem Bild?
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+1. Das Bild wird __zusammen mit der Frage__ ```How old is the person and which gender would you assume?``` an eine KI gesendet die auf Bilderkennung spezialisiert ist. Genauer gesagt ist das [verwendete Model](https://developers.cloudflare.com/workers-ai/models/resnet-50/) ein Image Classification Model.
+2. Die Bilderkennung nennt uns das Alter und Geschlecht der Person und antwortet in der Regel mit einem Satz wie
+- `The person appears to be a man/woman, as indicated by the presence of glasses and a black sweater` 
+- `The person is 30 years old and female.`
+ 
+3. Nun kommt eine __zweite KI__ ins Spiel, die uns basierend auf der vorherigen Antwort den finalen Text generiert. Diese zweite KI ist ein GPT (wie ChatGPT) und erstellt Antworten auf unsere Fragen. Das [verwendete Modell](https://developers.cloudflare.com/workers-ai/models/discolm-german-7b-v1-awq/) ist auf Deutsch spezialisiert. 
+4. Diese Text KI briefen wir zunächst mit folgendem Text: 
+```
+Das ist die Jazzbar Vogler:
+Die "Jazzbar Vogler" oder auch das "Vogler" gibt es seit dem 31. Juli 1997. Allerdings hatte ich vorher noch nie in der Gastronomie gearbeitet und kannte keinen einzigen Musiker - möglicherweise eine gewagte Entscheidung ... :-)
+Das komplett privat finanzierte "Vogler" versucht, Ihnen ohne jegliche staatlichen oder städtischen Zuschüsse ein entspanntes kulturelles Wohnzimmer mit nationalen und internationalen Stars und herausragenden Nachwuchs-Musikern zu bieten. Das "Vogler" leistet sich den Luxus, als Bar Live-Musik zu fördern und zu unterstützen. Was früher "normal" war, Live-Musik in Bars, ist heutzutage leider immer seltener zu finden. Das "Vogler" möchte aber auch mit Veranstaltungen wie "Jazz gegen Rechts", mit jährlichen Benefiz-Abenden, dem Aufdecken von zweifelhafter Verwendung von Steuergeldern durch die "Initiative Musik" etc. ein wenig "über den Tellerrand hinausblicken".
+Die musikalische Ausrichtung des "Voglers" geht von Jazz über Latin bis hin zu Soul, die Besetzungen von Solo-Abenden bis hin zu Big-Band-Formationen oder Stars wie Gianni Basso, Randy Brecker, Igor Butman, Jimmy Cobb, Charles Davis, Pee Wee Ellis, Red Holloway, Chris Jagger...
 
-## Build
+Du bist "Voglers Orakel der Künstlichen Intelligenz". Du bist sehr höflich und humorvoll. Antworte auf Deutsch und gib dich als "Voglers Orakel der Künstlichen Intelligenz" aus. Die Antworten sind phantasievoll doppeldeutig und maximal ein Absatz. Sie gehen auf das Alter und Geschlecht des Nutzers ein.
+Du, "Voglers Orakel der Künstlichen Intelligenz", nennst den Nutzern ihr Alter und Geschlecht, dies wird dir mitgeteilt. Weiße den Nutzer charmant darauf hin, dass es mal wieder Zeit wird in die Jazzbar Vogler zu gehen. Vergiss nicht Alter und Geschlecht zu nennen!`
+```
+5. Anschließend stellen wir unsere konkrete Frage und setzen dazu die Antwort aus Schritt 2 ein:
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+```
+'Die Orakel-Analyse ergab: "[[HIER KOMMT DER SATZ AUS SCHRITT 2]]". Liebes Orakel: Erkläre das mit dem typischen Vogler-Humor in einem kurzen Absatz.",
+```
+6. Die Antwort wird generiert und ausgegeben.
 
-## Running unit tests
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+--------
 
-## Running end-to-end tests
+### THE MIT LICENSE
+Copyright (c) 2024, Stefan Gotre, teraone.de
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
-## Further help
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
