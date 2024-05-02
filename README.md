@@ -6,7 +6,7 @@ Hier findet ihr den Source Code für das [Vogler'sche Orakel der künstlichen In
 1. Der Benutzer aktiviert die Webcam
 2. Der Benutzer macht ein Foto von sich
 3. Das Foto wird an den Server (Cloudflare Workers AI) gesendet und analysiert.
-4. Die Antwort wird zurückgegeben und angezeigt 
+4. Die Antwort wird ausgegeben 
 
 
 ## Was macht der Server mit dem Bild?
@@ -17,22 +17,24 @@ Hier findet ihr den Source Code für das [Vogler'sche Orakel der künstlichen In
 - `The person is 30 years old and female.`
  
 3. Nun kommt eine __zweite KI__ ins Spiel, die uns basierend auf der vorherigen Antwort den finalen Text generiert. Diese zweite KI ist ein GPT (wie ChatGPT) und erstellt Antworten auf unsere Fragen. Das [verwendete Modell](https://developers.cloudflare.com/workers-ai/models/discolm-german-7b-v1-awq/) ist auf Deutsch spezialisiert. Es kann [hier](https://playground.ai.cloudflare.com/) getestet werden. (Model `discolm-german-7b-v1-awq`)
-4. Diese Text KI briefen wir zunächst mit folgendem Text: 
-```Du bist "Jazzbar Voglers Orakel der Künstlichen Intelligenz".
-Du bist sehr höflich und humorvoll.
-Antworte auf Deutsch und gib dich als "Jazzbar Voglers Orakel der Künstlichen Intelligenz" aus.
-Die Antworten sind phantasievoll, doppeldeutig und Du schreibst maximal einen Absatz.
-Du gehst auf das Alter und Geschlecht des Nutzers ein.
-Du, "Voglers Orakel der Künstlichen Intelligenz", nennst den Nutzern ihr Alter und Geschlecht.
-Weise den Nutzer charmant darauf hin, dass es mal wieder Zeit wird, in die Jazzbar Vogler zu gehen.
+4. Dieser Text-KI sagen wir zunächst mit folgendem Text wer sie ist: 
+```Ich bin "Jazzbar Voglers Orakel der Künstlichen Intelligenz".
+Ich bin sehr höflich und humorvoll.
+Ich antworte auf Deutsch und gebe mich als  "Jazzbar Voglers Orakel der Künstlichen Intelligenz" aus.
+Meine Antworten sind phantasievoll, doppeldeutig und ich schreibe maximal einen Absatz.
+Ich gehe auf das Alter und Geschlecht des Nutzers ein.
+Ich, "Voglers Orakel der Künstlichen Intelligenz", nenne den Nutzern ihr Alter und Geschlecht.
+Ich weise den Nutzer charmant darauf hin, dass es mal wieder Zeit wird, in die Jazzbar Vogler zu gehen.
+Ich vergesse niemals Alter und Geschlecht zu nennen! Und das immer mit Humor!
 ```
-5. Anschließend stellen wir unsere konkrete Frage und setzen dazu die Antwort aus Schritt 2 ein:
+5. Anschließend setzen wir die Antwort aus Schritt 2 ein:
 
 ```
-'Die Orakel-Analyse ergab: "[[HIER KOMMT DER SATZ AUS SCHRITT 2]]". 
-Liebes Orakel: Erkläre das mit dem typischen Vogler-Humor in einem kurzen Absatz.",
+Meine Analyse des Nutzers ergab: "[[HIER KOMMT DER SATZ AUS SCHRITT 2]]"
 ```
-6. Die Antwort wird generiert und ausgegeben.
+6. Im Namen des Nutzers bitten wir nun um den Text
+```Liebes Orakel sprich!```
+7. Die Antwort wird generiert und ausgegeben.
 
 
 --------

@@ -1,5 +1,5 @@
-<div class="container">
-  <div class="row z-2 g-0">
+<div class="">
+  <div class="row z-2 g-0 mx-auto position-absolute w-100 px-5" [class.bottom-0]="!finished" [class.top-0]="finished">
 
     <div class="p-4 light-blurry-box reveal-after-5">
 
@@ -46,7 +46,7 @@
 
       <ng-container *ngIf="finished">
         <h5>Das Vogler'sche Orakel der künstlichen Intelligenz sprach:</h5>
-        <p class="fs-7 fst-italic fw-medium">
+        <p class="fs-5 fst-italic fw-medium text-start" style="white-space: pre-line;">
           "{{ response }}"
         </p>
 

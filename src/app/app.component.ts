@@ -2,6 +2,7 @@ import {ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, ViewC
 import {RouterOutlet} from '@angular/router';
 import {NgIf} from "@angular/common";
 import {HttpClient, HttpClientModule} from "@angular/common/http";
+import {Observable, switchMap} from 'rxjs';
 
 interface CapturedImageData {
   imageAsDataUrl: string;
@@ -23,7 +24,7 @@ export class AppComponent {
   public imageCaptured: boolean = false;
   public requestSent: boolean = false;
   public finished: boolean = false;
-  public response: string | null = null;
+  public response: string = '';
 
   public imageData: CapturedImageData | null = null;
 
@@ -41,6 +42,7 @@ export class AppComponent {
     this.imageCaptured = false;
     this.requestSent = false;
     this.finished = false;
+    this.response = '';
     this.cdr.detectChanges()
     if (!this.webCam) {
       console.log('no webcam.. trying again')
@@ -63,6 +65,7 @@ export class AppComponent {
   captureImage() {
 
     if (!this.webCam) {
+      this.startCamera()
       return;
     }
     const width = this.webCam.nativeElement.videoWidth;
@@ -83,48 +86,69 @@ export class AppComponent {
     this.webCam.nativeElement.play();
 
     this.imageCaptured = true;
+    this.cdr.detectChanges()
+  }
+
+  openEventSource(url: string): Observable<{ response: string, p: string }> {
+
+    const eventSource = new EventSource(url);
+    return new Observable(observer => {
+      eventSource.onmessage = event => {
+        if (event.data == "[DONE]") {
+          eventSource.close();
+          return;
+        }
+        observer.next(JSON.parse(event.data));
+      };
+      eventSource.onerror = (ev) => {
+        console.log('on error', ev);
+        observer.error(ev)
+      };
+    });
   }
 
   sendImage() {
     if (!this.imageData) {
       return;
     }
-
+    this.response = '';
 
     this.requestSent = true;
     this.cdr.detectChanges();
     //add the loading class to body
     document.body.classList.add('loading');
 
-    this.http.post('https://vogler-ai.teraone.workers.dev/', {
+    this.http.post<{ text: string }>('https://vogler-ai.teraone.workers.dev/', {
       image: this.imageData.imageAsDataUrl
-    }, {
-      responseType: 'text',
-      observe: 'body',
-    }).subscribe({
-      next: (chunk) => {
+    }).pipe(
+      switchMap((response) => {
+        const url = 'https://vogler-ai.teraone.workers.dev/?text=' + encodeURIComponent(response.text);
+        return this.openEventSource(url)
+      })
+    )
+      .subscribe({
+        next: (chunk) => {
+          document.body.classList.remove('loading');
+          this.requestSent = false;
+          this.finished = true;
+          this.response += chunk.response
+          this.cdr.detectChanges();
 
-        this.requestSent = false;
-        this.finished = true;
-        const s = JSON.parse(chunk)
-        this.response = s.response
-        this.cdr.detectChanges();
+        },
+        error: (error) => {
+          document.body.classList.remove('loading');
+          this.requestSent = false;
+          this.finished = true;
+          this.response = 'NICHTS... da ist was schief gelaufen...';
+          this.cdr.detectChanges();
 
-      },
-      error: (error) => {
-        console.error('Error:', error);
-        this.requestSent = false;
-        this.finished = true;
-        this.response = 'NICHTS... da ist was schief gelaufen...';
-        this.cdr.detectChanges();
-
-      },
-      complete: () => {
-        //remove the loading class from body
-        document.body.classList.remove('loading');
-        this.cdr.detectChanges();
-      },
-    });
+        },
+        complete: () => {
+          //remove the loading class from body
+          document.body.classList.remove('loading');
+          this.cdr.detectChanges();
+        },
+      });
 
   }
 }
