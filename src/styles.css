@@ -1,16 +1,24 @@
+
+html {
+
+  /*prevent the ios scroll to refresh*/
+  overscroll-behavior-y: contain;
+}
+
 body {
   font-size: 18px;
   color: white;
-  height: 100vh;
-  backdrop-filter: blur(100px);
-  animation: revealBlur 2s forwards;
-  margin: 0;
-  font-family: 'Open Sans', sans-serif;
-  background-repeat: no-repeat;
+  overscroll-behavior-y: contain;
+
   background-position: center center;
   background-attachment: fixed;
   background-color: #000918;
   background-size: cover;
+  margin: 0;
+  font-family: 'Open Sans', sans-serif;
+  background-repeat: no-repeat;
+
+
 }
 
 /* when not body.loading */
